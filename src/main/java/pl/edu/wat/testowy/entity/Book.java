@@ -16,13 +16,13 @@ public class Book {
     private String title;
     @Indexed(unique = true)
     private String description;
-    private Author author;
+    private String author;
     private List<String> type;
     private LocalDateTime created;
 
     public Book(String title,
                 String description,
-                Author author,
+                String author,
                 List<String> type,
                 LocalDateTime created) {
         this.title = title;

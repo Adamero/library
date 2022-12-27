@@ -13,6 +13,7 @@ public class BookResponse {
     private String id;
     private String title;
     private String description;
+    private AuthorResponse author;
     private List<String> type;
     private LocalDateTime created;
 

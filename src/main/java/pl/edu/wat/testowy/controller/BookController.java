@@ -1,23 +1,35 @@
 package pl.edu.wat.testowy.controller;
 
-import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.wat.testowy.dto.AuthorResponse;
 import pl.edu.wat.testowy.dto.BookRequest;
 import pl.edu.wat.testowy.dto.BookResponse;
+import pl.edu.wat.testowy.dto.BookWithAuthor;
 import pl.edu.wat.testowy.entity.Book;
 import pl.edu.wat.testowy.exception.EntityNotFound;
+import pl.edu.wat.testowy.service.AuthorService;
 import pl.edu.wat.testowy.service.BookService;
-
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/books")
-@AllArgsConstructor
 public class BookController {
-    //skrot klawiszowy na ctrl + l
+    //skrot klawiszowy na ctrl + alt + l
     private final BookService bookService;
+    private final AuthorService authorService;
+
+    @Autowired
+    public BookController(BookService bookService, AuthorService authorService) {
+        this.bookService = bookService;
+        this.authorService = authorService;
+    }
 
     @GetMapping
     public List<Book> fetchAllBooks() {
@@ -43,8 +55,11 @@ public class BookController {
 
     @PostMapping()
     public ResponseEntity<String> createAuthor(@RequestBody BookRequest bookRequest) {
-        BookResponse bookResponse = bookService.save(bookRequest);
-        return new ResponseEntity<>(bookResponse.getId(), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(bookService.save(bookRequest).getId(), HttpStatus.CREATED);
+        } catch (EntityNotFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping(path = "/del/{id}")
@@ -52,5 +67,21 @@ public class BookController {
         bookService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }//tego nie musze bardziej szczegolowo juz poprawiac
+
+    @GetMapping("/with-authors")
+    public List<BookWithAuthor> fetchAllBooksWithAuthors() {
+        List<Book> books = bookService.getAllBooks();
+        return books.stream()
+                .map(book -> {
+                    try {
+                        String authorId = book.getAuthor();
+                        AuthorResponse authorObject = new AuthorResponse(authorId, authorService.getAuthorById(authorId).getFirstName(), authorService.getAuthorById(authorId).getLastName());
+                        return new BookWithAuthor(book.getId(), book.getTitle(), book.getDescription(), authorObject);
+                    } catch (EntityNotFound e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 
 }

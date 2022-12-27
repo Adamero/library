@@ -9,6 +9,7 @@ import java.util.List;
 public class BookRequest {
     private String title;
     private String description;
+    private String authorId;
     private List<String> type;
     private LocalDateTime created;
 }
