@@ -1,6 +1,7 @@
 package pl.edu.wat.testowy.service;
 
-import io.micrometer.common.util.StringUtils;
+//import io.micrometer.common.util.StringUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
 
     @Transactional
     public String deleteById(String id) {
@@ -64,11 +66,12 @@ public class BookService {
 
     public BookResponse updateBook(String id, String title, String description) throws EntityNotFound {
         Book book = bookRepository.findById(id).orElseThrow(EntityNotFound::new);
-        if (StringUtils.isNotBlank(title)) {
+
+        if (StringUtils.hasText(title)) {
             book.setTitle(title);
         }
 
-        if (StringUtils.isNotBlank(description)) {
+        if (StringUtils.hasText(description)) {
             book.setDescription(description);
         }
 

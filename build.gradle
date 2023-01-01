@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.0'
+	id 'org.springframework.boot' version '2.7.6'
 	id 'io.spring.dependency-management' version '1.1.0'
 }
 
@@ -19,11 +19,20 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.7.6'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.6'
+
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
+	implementation 'org.graalvm.js:js-scriptengine:22.2.0'
+	implementation 'org.graalvm.js:js:22.0.0'
+	implementation 'org.graalvm.compiler:compiler:22.2.0'
+	implementation 'org.graalvm.sdk:graal-sdk:22.2.0'
+	implementation 'org.graalvm.truffle:truffle-api:22.2.0'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.6'
 }
 
 tasks.named('test') {
