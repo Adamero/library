@@ -8,6 +8,7 @@ import pl.edu.wat.testowy.repository.AuthorRepository;
 import pl.edu.wat.testowy.repository.BookRepository;
 import pl.edu.wat.testowy.service.ScriptService;
 
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/script")
@@ -29,34 +30,58 @@ public class ScriptController {
         return new ResponseEntity<>(scriptService.exec(script), HttpStatus.OK);
     }
 
-    //var Article = Java.type('pl.edu.wat.testowy.entity.Book');
-    //var Author = Java.type('pl.edu.wat.testowy.entity.Author');
-    //var Set = Java.type('java.util.Set');
+    @PostMapping("/add-books")
+    public ResponseEntity<String> addBooks() {
+        String script = """
+                    function addBooks() {
+                        var Book = Java.type('pl.edu.wat.testowy.entity.Book');
+                        var books = [{ title: 't00es00t000w0'}, { title: 't01es01t001w1'}];
+                        for (book of books) {
+                            if (book.title.includes("0")) {
+                                var newBook = new Book();
+                                newBook.setTitle(book.title);
+                                newBook.setDescription(book.description);
+                                bookRepository.save(newBook);
+                            }
+                        }
+                    }
+                    addBooks();
+                """;
 
-    //var patrycjaAuthor = new Author();
-    //               patrycjaAuthor.setFirstName("Aam");
-    //               patrycjaAuthor.setLastName("xd");
-    //               authorRepository.save(patrycjaAuthor);
+        ScriptService scriptService = new ScriptService(authorRepository, bookRepository);
 
+        return new ResponseEntity<>(scriptService.exec(script), HttpStatus.OK);
+    }
 
-    @GetMapping("/test")
-    public String execScript2() {
-        //return bookService.getAllBooks();
-        /*
-         var bookId = "63ab34bc5f3fa84ab5703eef";
-                       bookRepository.findAll();
-                       var books = bookRepository.findAll();
-                       books.forEach(function(book) {
-                         console.log(book.title);
-                       });
-         */
-        String script = """   
-                       authorRepository.findAll()
+    @GetMapping("/fix-titles")
+    public String fixTitles() {
+        String script = """
+                    
+                     function findBooks() {
+                           var book = bookRepository.findAll();
+                           var test;
+                           for (books of bookRepository.findAll()){
+                                tst = books.getTitle();
+                                if(tst.includes("0")){
+                                test = books;
+                                books.setTitle(tst.replaceAll("0","O"));
+                                bookRepository.save(books);
+                                }
+                           }                           
+                           return book;
+                         }
+                        
+                         console.log(findBooks());
+                         findBooks();
                 """;
 
         ScriptService scriptService = new ScriptService(authorRepository, bookRepository);
 
         return scriptService.exec(script);
     }
-//bookRepository.findAll();
+
+
+
+
+
 }

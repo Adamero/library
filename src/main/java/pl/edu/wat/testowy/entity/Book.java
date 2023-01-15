@@ -14,7 +14,7 @@ public class Book {
     @Id
     private String id;
     private String title;
-    @Indexed(unique = true)
+    //@Indexed(unique = true)
     private String description;
     private String author;
     private List<String> type;

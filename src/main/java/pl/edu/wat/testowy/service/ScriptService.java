@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.wat.testowy.repository.AuthorRepository;
 import pl.edu.wat.testowy.repository.BookRepository;
 
+
 @Service
 @Slf4j
 public class ScriptService {
@@ -36,5 +37,6 @@ public class ScriptService {
     }
 
 
-    
+
 }
+
