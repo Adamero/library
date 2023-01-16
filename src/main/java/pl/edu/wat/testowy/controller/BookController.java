@@ -68,7 +68,7 @@ public class BookController {
         bookService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }//tego nie musze bardziej szczegolowo juz poprawiac
-
+/*
     @GetMapping("/with-authors")
     public List<BookWithAuthor> fetchAllBooksWithAuthors() {
         List<Book> books = bookService.getAllBooks();
@@ -76,6 +76,7 @@ public class BookController {
                 .map(book -> {
                     try {
                         String authorId = book.getAuthor();
+                        System.out.println(authorId);
                         AuthorResponse authorObject = new AuthorResponse(authorId, authorService.getAuthorById(authorId).getFirstName(), authorService.getAuthorById(authorId).getLastName());
                         return new BookWithAuthor(book.getId(), book.getTitle(), book.getDescription(), authorObject);
                     } catch (EntityNotFound e) {
@@ -84,5 +85,28 @@ public class BookController {
                 })
                 .collect(Collectors.toList());
     }
+*/
+
+    @GetMapping("/with-authors")
+    public List<BookWithAuthor> fetchAllBooksWithAuthors() {
+        List<Book> books = bookService.getAllBooks();
+        return books.stream()
+                .map(book -> {
+                    try {
+                        String authorId = book.getAuthor();
+                        if(authorId != null) {
+                            AuthorResponse authorObject = new AuthorResponse(authorId, authorService.getAuthorById(authorId).getFirstName(), authorService.getAuthorById(authorId).getLastName());
+                            return new BookWithAuthor(book.getId(), book.getTitle(), book.getDescription(), authorObject);
+                        } else {
+                            return new BookWithAuthor(book.getId(), book.getTitle(), book.getDescription(), null);
+                        }
+                    } catch (EntityNotFound e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .filter(book -> book.getAuthorObject() != null)
+                .collect(Collectors.toList());
+    }
+
 
 }

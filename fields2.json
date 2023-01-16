@@ -1,0 +1,12 @@
+{
+  "fields": [
+    {
+      "fieldName": "test",
+      "fieldType": "java.lang.String"
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "int"
+    }
+  ]
+}
