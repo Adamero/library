@@ -41,15 +41,6 @@ public class AuthorService {
         );
 
         return authorMapper.map(author);
-        /*Author author = new Author();
-        author.setFirstName(authorRequest.getFirstName());
-        author.setLastName(authorRequest.getLastName());
-        author = authorRepository.save(
-                author
-        );
-        return new AuthorResponse(author.getId(), author.getFirstName(), author.getLastName());
-
-         */
     }
 
 

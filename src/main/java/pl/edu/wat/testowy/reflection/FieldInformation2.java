@@ -38,6 +38,7 @@ public class FieldInformation2 {
     public String toString() {
         return fieldName;
     }
+
     public static void readJson(String path) {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = null;

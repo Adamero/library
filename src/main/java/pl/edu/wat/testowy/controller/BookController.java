@@ -52,7 +52,6 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-//http://localhost:8080/api/v1/books/63987aad39e0490a1d82ebcc?title=Nowy%20tytuł&description=Nowy%20opis
 
     @PostMapping()
     public ResponseEntity<String> createAuthor(@RequestBody BookRequest bookRequest) {
@@ -68,24 +67,7 @@ public class BookController {
         bookService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }//tego nie musze bardziej szczegolowo juz poprawiac
-/*
-    @GetMapping("/with-authors")
-    public List<BookWithAuthor> fetchAllBooksWithAuthors() {
-        List<Book> books = bookService.getAllBooks();
-        return books.stream()
-                .map(book -> {
-                    try {
-                        String authorId = book.getAuthor();
-                        System.out.println(authorId);
-                        AuthorResponse authorObject = new AuthorResponse(authorId, authorService.getAuthorById(authorId).getFirstName(), authorService.getAuthorById(authorId).getLastName());
-                        return new BookWithAuthor(book.getId(), book.getTitle(), book.getDescription(), authorObject);
-                    } catch (EntityNotFound e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(Collectors.toList());
-    }
-*/
+
 
     @GetMapping("/with-authors")
     public List<BookWithAuthor> fetchAllBooksWithAuthors() {
@@ -94,7 +76,7 @@ public class BookController {
                 .map(book -> {
                     try {
                         String authorId = book.getAuthor();
-                        if(authorId != null) {
+                        if (authorId != null) {
                             AuthorResponse authorObject = new AuthorResponse(authorId, authorService.getAuthorById(authorId).getFirstName(), authorService.getAuthorById(authorId).getLastName());
                             return new BookWithAuthor(book.getId(), book.getTitle(), book.getDescription(), authorObject);
                         } else {

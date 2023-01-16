@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class BookWithAuthor{
+public class BookWithAuthor {
     private String id;
     private String title;
     private String description;

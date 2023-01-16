@@ -44,6 +44,7 @@ public class ScriptController {
                                 bookRepository.save(newBook);
                             }
                         }
+                        return "Done";
                     }
                     addBooks();
                 """;
@@ -79,9 +80,6 @@ public class ScriptController {
 
         return scriptService.exec(script);
     }
-
-
-
 
 
 }

@@ -8,7 +8,7 @@ import pl.edu.wat.testowy.entity.Author;
 @Service
 public class AuthorMapper {
 
-    public Author map(AuthorRequest authorRequest){
+    public Author map(AuthorRequest authorRequest) {
         Author author = new Author();
         author.setFirstName(authorRequest.getFirstName());
         author.setLastName(authorRequest.getLastName());
@@ -20,10 +20,11 @@ public class AuthorMapper {
         //author.setRank(authorRequest.getRank());
         //empty for byte buddy
     }
+
     //za pomoca bytebuddy bedziemy podmieniali cialo tej metody
     //ktora dodatkowo wykona cos takiego jak author.setRank(authorRequest.getRank());
     public AuthorResponse map(Author author) {
-        AuthorResponse authorResponse =  new AuthorResponse(author.getId(), author.getFirstName(), author.getLastName());
+        AuthorResponse authorResponse = new AuthorResponse(author.getId(), author.getFirstName(), author.getLastName());
         fillAuthor(authorResponse, author);
         return authorResponse;
     }

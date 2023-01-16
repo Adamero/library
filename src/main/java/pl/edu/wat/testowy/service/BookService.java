@@ -1,6 +1,7 @@
 package pl.edu.wat.testowy.service;
 
 //import io.micrometer.common.util.StringUtils;
+
 import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,20 +42,11 @@ public class BookService {
     }
 
     public BookResponse save(BookRequest bookRequest) throws EntityNotFound {
-        //Book book = new Book();
-        /*Author author = new Author();
-        author.setFirstName("Imie");
-        author.setLastName("Naziwsko");
-        */
 
-
-        //Book book = authorMapper.map(author, bookRequest) new Book();
         Book book = new Book();
 
         book.setTitle(bookRequest.getTitle());
         book.setDescription(bookRequest.getDescription());
-        //book.setType(List.of("Sci-fi", "Drama"));
-        //book.setAuthor(author);
         Author author = authorRepository.findById(bookRequest.getAuthorId()).orElseThrow(EntityNotFound::new);
         book.setAuthor(author.getId());
         book.setType(bookRequest.getType());
@@ -80,30 +72,4 @@ public class BookService {
 
         return new BookResponse(book.getId(), book.getTitle(), book.getDescription());
     }
-
-/*
-    @Bean
-    CommandLineRunner runner(BookRepository repository, MongoTemplate mongoTemplate){
-        return args -> {
-            Author author = new Author(
-                    "Ania",
-                    "Zielonka"
-            );
-
-            String title = "Ania z zielonego wzgorza";
-            Book book = new Book(
-                    title,
-                    "Ksiazka o jakiejs tam Ani",
-                    author,
-                    List.of("Sci-fi", "Drama"),
-                    LocalDateTime.now()
-            );
-            repository.findBookByTytul(title)
-                    .ifPresentOrElse(b -> {
-                        System.out.println(book + "already exists");
-                    }, () -> {
-                        System.out.println("Inserting book " + book);
-                        repository.insert(book);
-                    });
-     */
 }

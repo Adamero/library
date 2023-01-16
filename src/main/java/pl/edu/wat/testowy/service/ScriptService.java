@@ -22,20 +22,19 @@ public class ScriptService {
         this.bookRepository = bookRepository;
     }
 
-    public String exec(String script){
+    public String exec(String script) {
         try (Context context = Context.newBuilder("js")
                 .allowAllAccess(true)
-                .build()){
+                .build()) {
             var bindings = context.getBindings("js");
-            bindings.putMember("authorRepository",authorRepository);
-            bindings.putMember("bookRepository",bookRepository);
+            bindings.putMember("authorRepository", authorRepository);
+            bindings.putMember("bookRepository", bookRepository);
             return context.eval("js", script).toString();
         } catch (PolyglotException e) {
             log.error("Error executing", e);
             return e.getMessage() + "\n" + e.getSourceLocation().toString();
         }
     }
-
 
 
 }

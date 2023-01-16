@@ -37,17 +37,13 @@ public class Reflection {
     }
 
 
-    FieldInformation fieldInformation = new FieldInformation();
-    FieldInformation2 fieldInformation2 = new FieldInformation2();
-
-
     //nie beda to pola final bo one beda sie zmienialy
-    public static void apply(String test, String fieldType){
+    public static void apply(String test, String fieldType) {
 
         var ref = new Reflection();
-        ref.applyEntity(test,fieldType);
-        ref.applyRequest(test,fieldType);
-        ref.applyResponse(test,fieldType);
+        ref.applyEntity(test, fieldType);
+        ref.applyRequest(test, fieldType);
+        ref.applyResponse(test, fieldType);
         ref.applyAuthorMapper(test);
 
     }
@@ -76,7 +72,7 @@ public class Reflection {
         //List<String> fieldNames = ref.getFieldNames();
         //System.out.println(fieldNames);
 
-        DynamicType.Builder <Object> builder = byteBuddy
+        DynamicType.Builder<Object> builder = byteBuddy
                 .redefine(mapperDefinition,
                         ClassFileLocator.ForClassLoader.ofSystemLoader())
                 .method(named("fillAuthorRequest"))
@@ -93,11 +89,11 @@ public class Reflection {
                                 .onArgument(1)));
 
 //korzystamy z metody ktora sie nazywa fillauthorrequest
-        try(var unloadedAuthor = builder.make()){
+        try (var unloadedAuthor = builder.make()) {
             mapperDefinition = unloadedAuthor.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                     .getTypeDescription();
 
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException();
         }
 
@@ -106,16 +102,17 @@ public class Reflection {
     //podmienione pole i zostanie dodane author.setRank(authorRequest.getRank());
     //gdy wykonamy save na autorze bedzie on posiadal w sobie rank
 
-    private MethodDescription getterEntity(String test){
-        return  entityDefinition
+    private MethodDescription getterEntity(String test) {
+        return entityDefinition
                 .getDeclaredMethods()
                 .filter(ElementMatchers.isGetter(test))
                 .stream()
                 .findFirst()
                 .orElseThrow();
     }
+
     private MethodDescription setterAuthorResponse(String test) {
-        return  responseDefinition
+        return responseDefinition
                 .getDeclaredMethods()
                 .filter(ElementMatchers.isSetter(test))
                 .stream()
@@ -124,7 +121,7 @@ public class Reflection {
     }
 
     private MethodDescription getterRequest(String test) {
-        return  requestDefinition
+        return requestDefinition
                 .getDeclaredMethods()
                 .filter(ElementMatchers.isGetter(test))
                 .stream()
@@ -134,7 +131,7 @@ public class Reflection {
     }
 
     private MethodDescription setterAuthorEntity(String test) {
-        return  entityDefinition
+        return entityDefinition
                 .getDeclaredMethods()
                 .filter(ElementMatchers.isSetter(test))
                 .stream()
@@ -155,56 +152,55 @@ public class Reflection {
 
     private void applyResponse(String test, String fieldType) {
 
-        DynamicType.Builder <Object> builder = byteBuddy
+        DynamicType.Builder<Object> builder = byteBuddy
                 .redefine(responseDefinition,
                         ClassFileLocator.ForClassLoader.ofSystemLoader())
-                .defineProperty(test,typePool.describe(fieldType).resolve());
+                .defineProperty(test, typePool.describe(fieldType).resolve());
 
-        try(var unloadedAuthor = builder.make()){
+        try (var unloadedAuthor = builder.make()) {
             responseDefinition = unloadedAuthor.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                     .getTypeDescription();
 //tu zostanie przypisana definicja nowej klasy
 
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException();
         }
 
     }
 
     private void applyRequest(String test, String fieldType) { //to jest dto ktore otrzymujemy
-        DynamicType.Builder <Object> builder = byteBuddy
+        DynamicType.Builder<Object> builder = byteBuddy
                 .redefine(requestDefinition,
                         ClassFileLocator.ForClassLoader.ofSystemLoader())
-                .defineProperty(test,typePool.describe(fieldType).resolve());
+                .defineProperty(test, typePool.describe(fieldType).resolve());
 
-        try(var unloadedAuthor = builder.make()){
+        try (var unloadedAuthor = builder.make()) {
             requestDefinition = unloadedAuthor.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                     .getTypeDescription();
 //tu zostanie przypisana definicja nowej klasy
 
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException();
         }
 
     }
 
     public void applyEntity(String test, String fieldType) {
-        DynamicType.Builder <Object> builder = byteBuddy
+        DynamicType.Builder<Object> builder = byteBuddy
                 .redefine(entityDefinition,
                         ClassFileLocator.ForClassLoader.ofSystemLoader())
-                .defineProperty(test,typePool.describe(fieldType).resolve());
+                .defineProperty(test, typePool.describe(fieldType).resolve());
 
-        try(var unloadedAuthor = builder.make()){
+        try (var unloadedAuthor = builder.make()) {
             entityDefinition = unloadedAuthor.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                     .getTypeDescription();
 //tu zostanie przypisana definicja nowej klasy author
 
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException();
         }
 
     }
-
 
 
 }
