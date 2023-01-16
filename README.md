@@ -1,6 +1,7 @@
 # library
 
 skrypt1 - zamienia liczby 0 w tytule na O
+```
 String script = """
                     
                      function findBooks() {
@@ -20,6 +21,7 @@ String script = """
                          console.log(findBooks());
                          findBooks();
                 """;
+ ```
 #skrypt2 - dodaje błędne dane 
 ```       
 String script = """
