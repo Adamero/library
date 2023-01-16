@@ -57,20 +57,6 @@ public class Reflection {
     }
 
     private void applyAuthorMapper(String test) {//musimy wyciagnac mappera
-        /*
-        System.out.println(fieldInformation.getFieldName());
-        FieldInformation2.readJson("fields2.json");
-        List<FieldInformation2> fields = FieldInformation2.getFields();
-        fields.forEach(f->System.out.println(f.getFieldName()));
-        fields.forEach(f->System.out.println(f.getFieldType()));
-        List<String> fieldNames = new ArrayList<>();
-        fields.forEach(f->fieldNames.add(f.getFieldName()));
-        //fields.forEach(FieldInformation2::getFieldName);
-        System.out.println(fieldNames);
-         */
-        //Reflection ref = new Reflection();
-        //List<String> fieldNames = ref.getFieldNames();
-        //System.out.println(fieldNames);
 
         DynamicType.Builder<Object> builder = byteBuddy
                 .redefine(mapperDefinition,
