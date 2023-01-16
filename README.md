@@ -40,3 +40,30 @@ String script = """
                     addBooks();
                 """;
 ```
+
+Jeśli chodzi o zadanie 4 dostarczam zmienne poprzez plik fields.json który wygląda następująco
+```
+{
+  "fieldName": "rank",
+  "fieldType": "java.lang.String"
+}
+
+```
+
+Chciałbym poprawić to aby dodawało wiele elementów poprzez plik json
+
+```
+{
+  "fields": [
+    {
+      "fieldName": "test",
+      "fieldType": "java.lang.String"
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "int"
+    }
+  ]
+}
+```
+
