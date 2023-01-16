@@ -20,6 +20,7 @@ String script = """
                          console.log(findBooks());
                          findBooks();
                 """;
+```
 #skrypt2 - dodaje błędne dane        
 String script = """
                     function addBooks() {
@@ -36,3 +37,4 @@ String script = """
                     }
                     addBooks();
                 """;
+```
