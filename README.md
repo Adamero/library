@@ -20,7 +20,7 @@ String script = """
                          console.log(findBooks());
                          findBooks();
                 """;
-skrypt2 - dodaje błędne dane        
+#skrypt2 - dodaje błędne dane        
 String script = """
                     function addBooks() {
                         var Book = Java.type('pl.edu.wat.testowy.entity.Book');
